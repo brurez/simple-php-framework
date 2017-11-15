@@ -6,6 +6,8 @@
  * Time: 17:48
  */
 
+require dirname(__DIR__) . '/vendor/autoload.php';
+
 spl_autoload_register(function ($class) {
 	$root = dirname(__DIR__);
 	$file = $root . '/' . str_replace('\\', '/', $class) . '.php';
@@ -25,6 +27,7 @@ $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('posts', ['controller' => 'Posts', 'action' => 'index']);
 $router->add('{controller}/{action}');
 $router->add('{controller}/{id:\d+}/{action}');
+$router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
 
 /*// Display the routing table
 echo '<pre>';
