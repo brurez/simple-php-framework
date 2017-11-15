@@ -9,6 +9,7 @@
 namespace App\Controllers;
 
 use \Core\View;
+use App\Models\Post;
 
 class Posts extends \Core\Controller {
 	/**
@@ -18,7 +19,10 @@ class Posts extends \Core\Controller {
 	 */
 	public function indexAction()
 	{
-		View::renderTemplate('Posts/index.twig');
+		$posts = Post::getAll();
+		View::renderTemplate('Posts/index.twig', [
+			'posts' => $posts
+		]);
 	}
 
 	/**
