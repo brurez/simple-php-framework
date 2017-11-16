@@ -6,10 +6,14 @@
 
   <h1>Hello!</h1>
   <p>This is a {{ name }}. Made as a exercise. Don't use it in production!</p>
-  <ul>
+
+    <a href="/signup/new">Sign up</a>
+
+  <ul style="margin-top: 1em">
     {% for color in colors %}
       <li>{{ color }}</li>
     {% endfor %}
   </ul>
+
 
 {% endblock %}
