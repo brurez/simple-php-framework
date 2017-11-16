@@ -41,12 +41,12 @@ class Error {
 			            $exception->getLine() . "</p>";
 
 			error_log( $message );
-			/*echo "<h1>An Error Occurred</h1>";*/
-			if ( $code = 404 ) {
+			/*if ( $code = 404 ) {
 				echo '<h1>Page not found</h1>';
 			} else {
 				echo "<h1>An error occurred</h1>";
-			}
+			}*/
+			View::renderTemplate("$code.twig");
 		}
 	}
 }
