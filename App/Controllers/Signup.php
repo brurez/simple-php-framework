@@ -20,12 +20,18 @@ class Signup extends \Core\Controller {
 	public function createAction(){
 		$user = new User($_POST);
 		if($user->save()){
-			View::renderTemplate( 'Signup/success.twig' );
+			header('Location: http://' . $_SERVER['HTTP_HOST'] . '/signup/success', true, 303);
+			exit;
+
 		}else{
 			View::renderTemplate('Signup/new.twig', [
 				'user' => $user
 			]);
 		}
+	}
+
+	public function successAction(){
+		View::renderTemplate( 'Signup/success.twig' );
 	}
 
 }
