@@ -8,6 +8,8 @@
 
 namespace Core;
 
+use App\Auth;
+
 abstract class Controller {
 	protected $route_params = [];
 
@@ -48,5 +50,13 @@ abstract class Controller {
 	public function redirect( $url ) {
 		header( 'Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303 );
 		exit;
+	}
+
+	public function requireLogin(){
+		if( ! Auth::isLoggedIn()) {
+			Auth::rememberRequestedPage();
+
+			$this->redirect('/login');
+		}
 	}
 }

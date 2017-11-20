@@ -8,6 +8,7 @@
 
 namespace App\Controllers;
 
+use App\Auth;
 use \Core\View;
 
 
@@ -16,8 +17,7 @@ class Home extends \Core\Controller {
 	public function indexAction()
 	{
 		View::renderTemplate('Home/index.twig', [
-			'name' => 'Simple PHP Framework',
-			'colors' => ['red', 'green', 'blue']
+			'name' => 'Simple PHP Framework'
 		]);
 	}
 }

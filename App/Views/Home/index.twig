@@ -7,8 +7,10 @@
     <h1>Hello!</h1>
     <p>This is a {{ name }}. Made as a exercise. Don't use it in production!</p>
 
-    {% if session.user %}
-        User with ID {{ session.user_id }} is logged in.
+    {% if is_logged_in %}
+        Hello {{ current_user.name }}.
+        {#User with ID {{ session.user_id }} is logged in.#}
+        <a href="/logout">Log out</a>
     {% else %}
         <a href="/signup/new">Sign up</a>
         <a href="/login">Log in</a>

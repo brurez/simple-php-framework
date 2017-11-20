@@ -10,6 +10,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
+use \App\Auth;
 
 class Login extends \Core\Controller {
 	/**
@@ -30,10 +31,19 @@ class Login extends \Core\Controller {
 		$user = User::authenticate( $_POST['email'], $_POST['password'] );
 
 		if ( $user ) {
-			$_SESSION['user'] = $user->id;
-			static::redirect( '/' );
+
+			Auth::login($user);
+
+			static::redirect( Auth::getReturnToPage() );
 		} else {
 			View::renderTemplate( 'Login/new.twig', [ 'email' => $_POST['email'] ] );
 		}
+	}
+
+	public function destroyAction() {
+
+		Auth::logout();
+
+		$this->redirect('/');
 	}
 }
