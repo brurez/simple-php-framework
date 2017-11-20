@@ -14,7 +14,7 @@ class User extends \Core\Model {
 
 	public $errors = [];
 
-	public function __construct( $data ) {
+	public function __construct( $data = [] ) {
 		foreach ( $data as $key => $value ) {
 			$this->$key = $value;
 		}
@@ -53,7 +53,7 @@ class User extends \Core\Model {
 		if ( filter_var( $this->email, FILTER_VALIDATE_EMAIL ) === false ) {
 			$this->errors[] = 'Invalid email';
 		}
-		if(static::emailExists($this->email)) {
+		if ( static::emailExists( $this->email ) ) {
 			$this->errors[] = 'Email already taken';
 		}
 
@@ -72,17 +72,35 @@ class User extends \Core\Model {
 		}
 	}
 
-	public static function emailExists($email){
+	public static function emailExists( $email ) {
+		return static::findByEmail( $email ) !== false;
+
+	}
+
+	public static function findByEmail( $email ) {
 		$db = static::getDB();
 
-		$sql = 'SELECT * FROM users WHERE email = :email';
-		$stmt = $db->prepare($sql);
-		$stmt->bindValue('email', $email, PDO::PARAM_STR);
+		$sql  = 'SELECT * FROM users WHERE email = :email';
+		$stmt = $db->prepare( $sql );
+		$stmt->bindValue( 'email', $email, PDO::PARAM_STR );
+
+		$stmt->setFetchMode( PDO::FETCH_CLASS, get_called_class() );
 
 		$stmt->execute();
 
-		return $stmt->fetch() !== false;
+		return $stmt->fetch();
+	}
 
+	public static function authenticate( $email, $password ) {
+		$user = static::findByEmail( $email );
+
+		if ( $user ) {
+			if ( password_verify( $password, $user->password_hash ) ) {
+				return $user;
+			}
+		}
+
+		return false;
 	}
 
 }

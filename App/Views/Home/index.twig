@@ -4,16 +4,17 @@
 
 {% block body %}
 
-  <h1>Hello!</h1>
-  <p>This is a {{ name }}. Made as a exercise. Don't use it in production!</p>
+    <h1>Hello!</h1>
+    <p>This is a {{ name }}. Made as a exercise. Don't use it in production!</p>
 
-    <a href="/signup/new">Sign up</a>
+    {% if session.user %}
+        User with ID {{ session.user_id }} is logged in.
+    {% else %}
+        <a href="/signup/new">Sign up</a>
+        <a href="/login">Log in</a>
+    {% endif %}
 
-  <ul style="margin-top: 1em">
-    {% for color in colors %}
-      <li>{{ color }}</li>
-    {% endfor %}
-  </ul>
+
 
 
 {% endblock %}

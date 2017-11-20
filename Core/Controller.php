@@ -24,8 +24,8 @@ abstract class Controller {
 				$this->after();
 			}
 		} else {
-			throw new \Exception("Method $method not found in controller " .
-			                     get_class($this));
+			throw new \Exception( "Method $method not found in controller " .
+			                      get_class( $this ) );
 		}
 	}
 
@@ -43,5 +43,10 @@ abstract class Controller {
 	 * @return void
 	 */
 	protected function after() {
+	}
+
+	public function redirect( $url ) {
+		header( 'Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303 );
+		exit;
 	}
 }
