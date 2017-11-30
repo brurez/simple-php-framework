@@ -17,9 +17,9 @@ abstract class Model {
 
 		if ( $db === null ) {
 			try {
-				$dsn = 'mysql:host=' . Config::DB_HOST . ';dbname=' .
-				       Config::DB_NAME . ';port=' . Config::DB_PORT . ';charset=utf8';
-				$db = new PDO($dsn, Config::DB_USER, Config::DB_PASSWORD);
+				$dsn = 'mysql:host=' . getenv('DB_HOST') . ';dbname=' .
+				       getenv('DB_NAME') . ';port=' . getenv('DB_PORT') . ';charset=utf8';
+				$db = new PDO($dsn, getenv('DB_USER'), getenv('DB_PASSWORD'));
 			} catch ( PDOException $e ) {
 				echo $e->getMessage();
 			}
