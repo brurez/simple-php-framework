@@ -9,31 +9,35 @@
 namespace Core;
 
 
-class View {
-	public static function render($view, $args = []){
+class View
+{
+    public static function render($view, $args = [])
+    {
 
-		extract($args, EXTR_SKIP);
+        extract($args, EXTR_SKIP);
 
-		$file = "../App/Views/$view";
+        $file = "../App/Views/$view";
 
-		if(is_readable($file)) {
-			require $file;
-		} else {
-			throw new \Exception("$file not found");
-		}
-	}
+        if (is_readable($file)) {
+            require $file;
+        } else {
+            throw new \Exception("$file not found");
+        }
+    }
 
-	public static function renderTemplate($template, $args = []){
-		static $twig = null;
+    public static function renderTemplate($template, $args = [])
+    {
+        static $twig = null;
 
-		if($twig === null) {
-			$loader = new \Twig_Loader_Filesystem(dirname(__DIR__) . '/App/Views');
-			$twig = new \Twig_Environment($loader);
-			//$twig->addGlobal('session', $_SESSION);
-			$twig->addGlobal('is_logged_in', \App\Auth::isLoggedIn());
-			$twig->addGlobal('current_user', \App\Auth::getUser());
-		}
+        if ($twig === null) {
+            $loader = new \Twig_Loader_Filesystem(dirname(__DIR__) . '/App/Views');
+            $twig = new \Twig_Environment($loader);
+            //$twig->addGlobal('session', $_SESSION);
+            $twig->addGlobal('is_logged_in', \App\Auth::isLoggedIn());
+            $twig->addGlobal('current_user', \App\Auth::getUser());
+            $twig->addGlobal('flash_messages', \App\Flash::getMessages());
+        }
 
-		echo $twig->render($template, $args);
-	}
+        echo $twig->render($template, $args);
+    }
 }

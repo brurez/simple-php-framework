@@ -6,6 +6,8 @@
  * Time: 17:48
  */
 
+ini_set('session.cookie_lifetime', '864000');
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $dotenv = new Dotenv\Dotenv(dirname(__DIR__));

@@ -1,0 +1,17 @@
+.alert {
+    border: 1px solid #9b4dca;
+    padding: 0.73em;
+    border-radius: 6px;
+}
+
+.alert-success {
+    border-color: lightgreen;
+}
+
+.alert-warning {
+    border-color: yellow;
+}
+
+.alert-info {
+    border-color: skyblue;
+}

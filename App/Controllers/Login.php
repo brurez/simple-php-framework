@@ -8,42 +8,64 @@
 
 namespace App\Controllers;
 
+use App\Flash;
 use \Core\View;
 use \App\Models\User;
 use \App\Auth;
 
-class Login extends \Core\Controller {
-	/**
-	 * Show the login page
-	 *
-	 * @return void
-	 */
-	public function newAction() {
-		View::renderTemplate( 'Login/new.twig' );
-	}
+class Login extends \Core\Controller
+{
+    /**
+     * Show the login page
+     *
+     * @return void
+     */
+    public function newAction()
+    {
+        View::renderTemplate('Login/new.twig');
+    }
 
-	/**
-	 * Log in a user
-	 *
-	 * @return void
-	 */
-	public function createAction() {
-		$user = User::authenticate( $_POST['email'], $_POST['password'] );
+    /**
+     * Log in a user
+     *
+     * @return void
+     */
+    public function createAction()
+    {
+        $user = User::authenticate($_POST['email'], $_POST['password']);
 
-		if ( $user ) {
+        if ($user) {
 
-			Auth::login($user);
+            Auth::login($user);
 
-			static::redirect( Auth::getReturnToPage() );
-		} else {
-			View::renderTemplate( 'Login/new.twig', [ 'email' => $_POST['email'] ] );
-		}
-	}
+            Flash::addMessage('Login successful');
 
-	public function destroyAction() {
+            static::redirect(Auth::getReturnToPage());
+        } else {
 
-		Auth::logout();
+            Flash::addMessage('Login unsuccessful, please try again', Flash::WARNING);
 
-		$this->redirect('/');
-	}
+            View::renderTemplate('Login/new.twig', ['email' => $_POST['email']]);
+        }
+    }
+
+    public function destroyAction()
+    {
+        Auth::logout();
+
+        $this->redirect('/login/show-logout-message');
+
+    }
+
+    /**
+     * Show a logout message. It's necessary because after logout session is destroyed
+     * @return void
+     */
+    public function showLogoutMessageAction(): void
+    {
+        Flash::addMessage('Logout successful');
+
+        $this->redirect('/');
+
+    }
 }
