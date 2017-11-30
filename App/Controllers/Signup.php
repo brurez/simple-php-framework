@@ -20,7 +20,7 @@ class Signup extends \Core\Controller {
 	public function createAction(){
 		$user = new User($_POST);
 		if($user->save()){
-			static::redirect('/signup/new');
+			static::redirect('/signup/success');
 
 		}else{
 			View::renderTemplate('Signup/new.twig', [
